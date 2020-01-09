@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace表示命名空间 -->
+<mapper namespace="com.zhangsys.dao.RoleDao">
+
+	<select id="findAllRoles" 
+		resultType="com.zhangsys.po.Role">
+		select * from roles
+	</select>	
+	
+	<select id="findRoleByUserId" parameterType="com.zhangsys.po.Users"
+		resultType="com.zhangsys.po.Role">
+		select r.* from user_role ur inner join roles r on ur.r_id=r.id where ur.u_id = #{id}
+	</select>
+
+	<select id="findRoleById" parameterType="Integer"
+		resultType="com.zhangsys.po.Role">
+		select * from roles where id = #{id}
+	</select>
+
+    <insert id="addRole" parameterType="com.zhangsys.po.Role" 
+    keyProperty="id" useGeneratedKeys="true">
+		insert into roles(name,description) values(#{name},#{description});
+    </insert>
+
+    <insert id="updateRolesFunction" parameterType="Map">
+		insert into role_function(r_id,f_id) values(#{roleId},#{functionId});
+    </insert>
+    
+    <update id="updateRole" parameterType="com.zhangsys.po.Role">
+        update roles set name=#{name},description=#{description} where id=#{id}
+    </update>
+    
+    <delete id="delRole" parameterType="com.zhangsys.po.Role">
+        delete from roles where id=#{id}
+    </delete>
+</mapper>

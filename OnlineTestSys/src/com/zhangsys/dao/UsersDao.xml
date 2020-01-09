@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace表示命名空间 -->
+<mapper namespace="com.zhangsys.dao.UsersDao">
+
+	<select id="login" parameterType="com.zhangsys.po.Users"
+		resultType="com.zhangsys.po.Users">
+		select * from users where username = #{username} and password=#{password}
+	</select>
+	
+	<select id="findAllUsers" 
+		resultType="com.zhangsys.po.Users">
+		select * from users
+	</select>	
+	
+	<select id="findUsersById" parameterType="com.zhangsys.po.Users"
+		resultType="com.zhangsys.po.Users">
+		select * from users where id = #{id}
+	</select>
+<!--  	
+	<resultMap type="com.zhangsys.po.Users" id="UserWithRoleResult">
+	     <id property="id" column="user_id"/>
+	     <result property="username" column="username"/>
+	     <result property="nickname" column="nickname"/>
+	     <collection property="roleList" ofType="com.zhangsys.po.Role">
+	          <id property="id" column="role_id"/>
+	          <result property="name" column="name"/>
+	      </collection>
+	</resultMap>
+-->
+    <insert id="addUsers" parameterType="com.zhangsys.po.Users" 
+    keyProperty="id" useGeneratedKeys="true">
+		insert into users(username,password,nickname) values(#{username},#{password},#{nickname});
+    </insert>
+
+    <insert id="updateUsersRoles" parameterType="Map">
+		insert into user_role(u_id,r_id) values(#{userId},#{roleId});
+    </insert>
+    
+    <update id="updateUsers" parameterType="com.zhangsys.po.Users">
+        update users set username=#{username},password=#{password}, nickname=#{nickname} where id=#{id}
+    </update>
+    
+    <delete id="delUsers" parameterType="com.zhangsys.po.Users">
+        delete from users where id=#{id}
+    </delete>
+</mapper>
